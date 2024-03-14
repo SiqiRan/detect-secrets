@@ -297,13 +297,15 @@ class SecretsCollection:
             if filename not in self.files:
                 continue
                 
+            res = set.copy(other[filename])
+
             for e in other[filename]:
                 if (e.is_secret is None) or (e.is_secret is True):
-                    other[filename].remove(e)
+                    res.remove(e)
                 else:
                     continue
 
-            output[filename] = self[filename] - other[filename]
+            output[filename] = self[filename] - res
 
         for filename in self.files:
             if filename in other.files:
