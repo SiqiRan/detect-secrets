@@ -296,12 +296,14 @@ class SecretsCollection:
         for filename in other.files:
             if filename not in self.files:
                 continue
-
-            for e in self[filename]:
-                if (e.is_secret is None) or (e.is_secret is True) or not other[filename].__contains__(e):
-                    output[filename].add(e)
+                
+            for e in other[filename]:
+                if (e.is_secret is None) or (e.is_secret is True):
+                    other[filename].remove(e)
                 else:
                     continue
+
+            output[filename] = self[filename] - other[filename]
 
         for filename in self.files:
             if filename in other.files:
